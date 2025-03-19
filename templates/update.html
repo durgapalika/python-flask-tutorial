@@ -1,0 +1,12 @@
+{% extends 'base.html' %} {% block head %} {% endblock %} {% block body %}
+
+<div class="container">
+  <h1>Task Manager</h1>
+
+  <form action="/" method="post">
+    <input type="hidden" name="_method" value="put" />
+    <input type="text" name="task" id="task" placeholder="Enter a task" value="{{task.task}}" />
+    <input type="submit" value="Update" class="button-primary" />
+  </form>
+</div>
+{% endblock %}

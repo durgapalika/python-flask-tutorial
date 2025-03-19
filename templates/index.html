@@ -1,0 +1,65 @@
+{% extends 'base.html' %} {% block head %}
+{% endblock %} {% block body %}
+<script>
+  function delete_task(id) {
+    fetch(`http://127.0.0.1:5000/delete/${id}`, {
+      method: "DELETE",
+    }).then(() => {
+      window.location.reload();
+    });
+  }
+  function toggle_task(id) {
+    fetch(`http://127.0.0.1:5000/toggle_task/${id}`, {
+      method: "PATCH",
+    }).then(() => {
+      window.location.reload();
+    });
+  }
+  function redirect_to_edit(id){
+    window.location.href =`/edit/${id}`
+  }
+</script>
+<div class="container">
+    <h1>Task Manager</h1>
+
+    <form action="/" method="post">
+        <input type="text" name="task" id="task" placeholder="Enter a task" />
+        <input type="submit" value="Add Task" class="button-primary"/>
+      </form>
+  <table>
+    <thead>
+      <tr>
+        <th>Task</td>
+        <th>Completed</td>
+        <th>Actions</td>
+      </tr>
+    </thead>
+    <tbody>
+      {% for task in tasks %}
+      <tr>
+        <td style="text-decoration: 'line-through;">{{task.task}}</td>
+        <td>
+          <input
+            type="checkbox"
+            {%
+            if
+            task.done%}
+            checked
+            {%
+            endif
+            %}
+            onclick="toggle_task('{{task.id}}')"
+          />
+        </td>
+        <td>
+          <button onclick="delete_task('{{task.id}}');" class="button-danger" >Delete</button>
+          <button onclick="redirect_to_edit('{{task.id}}');" class="button-secondary">Edit</button>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+ 
+</div>
+{% endblock %}
